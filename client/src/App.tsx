@@ -109,7 +109,12 @@ function App() {
 
             if (drone.violationData) {
               return (
-                <tr key={key} style={{color: drone.isViolatingNFZ ? 'red' : 'white'}}>
+                <tr key={key} style={
+                  {
+                    color: drone.isViolatingNFZ ? 'red' : 'white',
+                    fontWeight: drone.isViolatingNFZ ? 'bold' : 'normal'
+                  }
+                }>
                   <td>{drone.violationData.owner?.personData?.firstName} {drone.violationData.owner?.personData?.lastName}</td>
                   <td>{drone.violationData.owner?.personData?.email}</td>
                   <td>{drone.violationData.owner?.personData?.phoneNumber}</td>
