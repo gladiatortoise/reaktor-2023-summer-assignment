@@ -6,9 +6,11 @@ export class MutatingDroneList {
     lastUpdated = Date.now()
     
     constructor(
+        // data structure / map that contains all drones
         public droneTree: IDroneTree = {}
     ) {}
 
+    // create a new MutatingDroneList instance from the API
     static async createFromAPI() : Promise<MutatingDroneList> {
         const dronesReport = await MutatingDroneList.fetchReport()
         const drones = await MutatingDroneList.dronesFromReport(dronesReport)
@@ -17,6 +19,7 @@ export class MutatingDroneList {
         return new MutatingDroneList(dronesTree)
     }
 
+    // transform a list of drones to a tree/map
     static async listToTree(drones : Drone[]) : Promise<IDroneTree> {
         const dronesTree = groupBy(drones, (d : Drone) => d.drone.serialNumber)
         const dronesTreeSingle = Object.keys(dronesTree).reduce((acc, key) => {
@@ -27,6 +30,7 @@ export class MutatingDroneList {
         return dronesTreeSingle
     }
 
+    // get list of Drone instances from the report object
     static async dronesFromReport(report : any) : Promise<Drone[]> {
         const rawDrones = report['report']['capture']['drone']!
 
@@ -40,6 +44,7 @@ export class MutatingDroneList {
         return drones
     }
 
+    // get parsed xml object from api that contain's drones data
     static async fetchReport() : Promise<any> {
         const response = await fetch(DRONES_ENDPOINT)
         const reponseText = await response.text()
@@ -48,6 +53,7 @@ export class MutatingDroneList {
         return reponseParsed
     }
 
+    // update this DroneList instance with the data from another DroneList instance
     async updateWith(other : MutatingDroneList) : Promise<void> {
         for (const [key, drone] of Object.entries(this.droneTree)) {
             if (!other.hasOwnProperty(key)) {
@@ -75,6 +81,7 @@ export class MutatingDroneList {
         }
     }
 
+    // delete old drones that have not been updated in DELETE_DRONE_AFTER ms
     async deleteOldDrones() : Promise<void> {
         for (const [key, drone] of Object.entries(this.droneTree)) {
             if (Date.now() - drone.lastUpdated > DELETE_DRONE_AFTER) {
@@ -83,6 +90,7 @@ export class MutatingDroneList {
         }
     }
 
+    // delete violation data from drones that don't need it anymore because it's sensitive information
     async deleteOutdatedViolationData() : Promise<void> {
         for (const [key, drone] of Object.entries(this.droneTree)) {
             if (drone.needsViolationDataDeleted()) {
@@ -91,6 +99,7 @@ export class MutatingDroneList {
         }
     }
 
+    // update this DroneList instance with the data from the API
     async update() : Promise<void> {
         try {
             const newList = await MutatingDroneList.createFromAPI()

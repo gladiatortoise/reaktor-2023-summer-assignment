@@ -11,6 +11,7 @@ export class DroneListPoller {
         //console.log(this.list)
     }
 
+    // periodally poll drone list
     start() : DroneListPoller {
         this.interval = setInterval(() => {
             this.poll()

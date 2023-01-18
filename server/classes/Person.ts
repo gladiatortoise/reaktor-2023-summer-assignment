@@ -32,6 +32,7 @@ export class Person {
         }
     }
 
+    // get parsed json object from api that contain's person's data
     static async fetchPersonAPIJson(serialNumber : string) : Promise<any> {
         console.log('Fetching person data from API')
         try {
@@ -48,6 +49,7 @@ export class Person {
         
     }
 
+    // create new Person instance from drone modelId
     static async fromModelId(modelId : string) : Promise<Person | null> {
         const personJson = await Person.fetchPersonAPIJson(modelId)
         if (personJson === null) return null
