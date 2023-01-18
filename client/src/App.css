@@ -7,14 +7,19 @@
 
 .centered {
   margin: 0 auto;
-  width: 50%;
+  max-width:800px;
   padding: 10px;
+}
+
+.table-container {
+  max-width: fit-content;
+  overflow-x: auto;
 }
 
 .drone-map {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: fill-available;
+  aspect-ratio: 1 / 1;
   margin: auto;
   background:
     conic-gradient(from 90deg at 1px 1px,#00000099 90deg,black 0) 
@@ -40,12 +45,13 @@
   position: absolute;
   /*background-color: rgba(255, 0, 0, 0.2);*/
   background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(255, 0, 150, 0.3)),url(./birdnest02.webp);
-  animation: rotation 12s infinite linear, pulse 2s infinite;
+  animation: rotation 12s infinite linear;
   background-size:contain;
   border-radius: 50%;
   left: 30%;
   top: 30%;
 }
+
 
 @keyframes rotation {
   from {

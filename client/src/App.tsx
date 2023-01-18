@@ -93,39 +93,42 @@ function App() {
         <div className="no-fly-zone" />
       </div>
       <hr />
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Pilot Name</th>
-            <th scope="col">Email Address</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Closest Distance</th>
-            <th scope="col">Last violation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortDrones(drones).map((key) => {
-            const drone = drones[key]
+      <div className="table-container">
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Pilot Name</th>
+              <th scope="col">Last violation</th>
+              <th scope="col">Closest Distance</th>
+              <th scope="col">Email Address</th>
+              <th scope="col">Phone Number</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {sortDrones(drones).map((key) => {
+              const drone = drones[key]
 
-            if (drone.violationData) {
-              return (
-                <tr key={key} style={
-                  {
-                    color: drone.isViolatingNFZ ? 'red' : 'white',
-                    fontWeight: drone.isViolatingNFZ ? 'bold' : 'normal'
-                  }
-                }>
-                  <td>{drone.violationData.owner?.personData?.firstName} {drone.violationData.owner?.personData?.lastName}</td>
-                  <td>{drone.violationData.owner?.personData?.email}</td>
-                  <td>{drone.violationData.owner?.personData?.phoneNumber}</td>
-                  <td>{Math.ceil(drone.violationData.closestDistance / 1000)}m</td>
-                  <td>{prettyPrintTime((Date.now() - drone.violationData.lastSeenViolating)/1000)} ago</td>
-                </tr>
-              )
-            }
-          })}
-        </tbody>
-      </table>
+              if (drone.violationData) {
+                return (
+                  <tr key={key} style={
+                    {
+                      color: drone.isViolatingNFZ ? 'red' : 'white',
+                      fontWeight: drone.isViolatingNFZ ? 'bold' : 'normal'
+                    }
+                  }>
+                    <td>{drone.violationData.owner?.personData?.firstName} {drone.violationData.owner?.personData?.lastName}</td>
+                    <td>{prettyPrintTime((Date.now() - drone.violationData.lastSeenViolating)/1000)} ago</td>
+                    <td>{Math.ceil(drone.violationData.closestDistance / 1000)}m</td>
+                    <td>{drone.violationData.owner?.personData?.email}</td>
+                    <td>{drone.violationData.owner?.personData?.phoneNumber}</td>
+                  </tr>
+                )
+              }
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
