@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// Drones object that is returned from the server
 interface IDrones {
   [key: string]: {
     distance: number,
@@ -27,6 +28,7 @@ interface IDrones {
   }
 }
 
+// print time in round minutes or seconds instead of milliseconds
 const prettyPrintTime = (time: number) => {
   const seconds = Math.floor(time)
   const minutes = Math.floor(seconds / 60)
@@ -38,6 +40,7 @@ const prettyPrintTime = (time: number) => {
   }
 }
 
+// sort drones according to the last violation
 const sortDrones = (drones: IDrones) => {
   return Object.keys(drones).sort((a, b) => {
     let aViolation = drones[a].violationData
@@ -58,6 +61,7 @@ const sortDrones = (drones: IDrones) => {
 function App() {
   const [drones, setDrones] = useState<IDrones>({})
 
+  // periodatically fetch drones from the server
   useEffect(() => {
     console.log(drones)
 
