@@ -52,6 +52,7 @@ export class MutatingDroneList {
         for (const [key, drone] of Object.entries(this.droneTree)) {
             if (!other.hasOwnProperty(key)) {
                 drone.mbyInactive = true
+                drone.isViolatingNFZ = false
             }
         }
 
