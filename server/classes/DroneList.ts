@@ -91,10 +91,14 @@ export class MutatingDroneList {
     }
 
     async update() : Promise<void> {
-        const newList = await MutatingDroneList.createFromAPI()
-        await this.updateWith(newList)
-        await this.deleteOutdatedViolationData()
-        await this.deleteOldDrones()
-        this.lastUpdated = Date.now()
+        try {
+            const newList = await MutatingDroneList.createFromAPI()
+            await this.updateWith(newList)
+            await this.deleteOutdatedViolationData()
+            await this.deleteOldDrones()
+            this.lastUpdated = Date.now()
+        } catch(e) {
+            console.error(e)
+        }
     }
 }

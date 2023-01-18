@@ -25,12 +25,18 @@ export class Person {
 
     static async fetchPersonAPIJson(serialNumber : string) : Promise<any> {
         console.log('Fetching person data from API')
-        const response = await fetch(PILOT_INFO_ENDPOINT.replace(':serialNumber', serialNumber))
-        if (!response.ok) return null
+        try {
+            const response = await fetch(PILOT_INFO_ENDPOINT.replace(':serialNumber', serialNumber))
+            if (!response.ok) return null
 
-        const reponseJson = await response.json()
-    
-        return reponseJson
+            const reponseJson = await response.json()
+        
+            return reponseJson
+        } catch(e) {
+            console.error(e)
+            return null
+        }
+        
     }
 
     static async fromModelId(modelId : string) : Promise<Person | null> {
