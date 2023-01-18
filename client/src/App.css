@@ -1,38 +1,72 @@
-.App {
+.heading {
   text-align: center;
+  margin: 0 auto;
+  width: 50%;
+  padding: 10px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.centered {
+  margin: 0 auto;
+  width: 50%;
+  padding: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.drone-map {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  background:
+    conic-gradient(from 90deg at 1px 1px,#00000099 90deg,black 0) 
+    0 0/50px 50px;
+  --drone-width: 64px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.drone-on-map {
+  position: absolute;
+  width: var(--drone-width);
+  height: var(--drone-width);
+  border-radius: 50%;
+  background: url(./drone.png);
+  background-size: contain;
+  background-repeat:no-repeat;
+  background-position: center;
+  z-index:99;
 }
 
-.App-link {
-  color: #61dafb;
+.no-fly-zone {
+  width: 40%;
+  height: 40%;
+  position: absolute;
+  /*background-color: rgba(255, 0, 0, 0.2);*/
+  background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(255, 0, 150, 0.3)),url(./birdnest02.webp);
+  animation: rotation 12s infinite linear, pulse 2s infinite;
+  background-size:contain;
+  border-radius: 50%;
+  left: 30%;
+  top: 30%;
 }
 
-@keyframes App-logo-spin {
+@keyframes rotation {
   from {
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+  }
+  50% {
+     -webkit-transform: scale(0.8);
+     transform: scale(0.8);
+  }
+  100% {
+      -webkit-transform: scale(1);
+     transform: scale(1);
   }
 }

@@ -8,7 +8,7 @@ export class DroneListPoller {
 
     async poll() {
         this.list.update()
-        console.log(this.list)
+        //console.log(this.list)
     }
 
     start() : DroneListPoller {
