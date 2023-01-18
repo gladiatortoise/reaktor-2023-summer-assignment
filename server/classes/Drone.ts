@@ -28,6 +28,7 @@ export class Drone {
         this.updateWithData(drone)
     }
 
+    // update this drone with the data from another drone
     async updateWithData(droneData : IDroneData) : Promise<void> {
         this.drone = droneData
         this.distance = this.calculateDistance()
@@ -35,23 +36,32 @@ export class Drone {
         this.lastUpdated = Date.now()
         
         if (this.isViolatingNFZ) {
+            // add violation data because the drone is violating the no flight zone
+            // if it already has violation data, update it
             this.violationData = {
                 lastSeenViolating: Date.now(),
                 closestDistance: Math.min(this.distance!, this.violationData?.closestDistance ?? Infinity),
-                owner: this.violationData?.owner ?? null
+                owner: this.violationData?.owner ?? null // new owner is not pulled here, because it might not be needed in the case this list is merged to a previous one
             }
         }
     }
 
+    // add owner to this drone's violation data. Return true if succesfull, else false
     async addOwner() : Promise<boolean> {
         if (this.violationData !== null) {
-            this.violationData.owner = await Person.fromModelId(this.drone.serialNumber)
-            return true
+            try {
+                this.violationData.owner = await Person.fromModelId(this.drone.serialNumber)
+                
+                return true
+            } catch(e) {
+                return false
+            }
         } else {
             return false
         }
     }
 
+    // calculate distance from drone to no flight zone center
     calculateDistance() : number | null {
         if (this.drone === null) {
             return null
@@ -73,6 +83,7 @@ export class Drone {
         }
     }
 
+    // check if drone has been inactive for too long
     needsViolationDataDeleted() : boolean {
         let lastSeenViolating = this.violationData?.lastSeenViolating
         if (lastSeenViolating !== undefined) {
