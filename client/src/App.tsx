@@ -62,7 +62,7 @@ function App() {
     console.log(drones)
 
     const int = setInterval(() => {
-      fetch('http://localhost:6090/drones')
+      fetch('https://automeme.app:6092/drones')
       .then(res => res.json())
       .then(data => setDrones(data))
     }, 1000)
