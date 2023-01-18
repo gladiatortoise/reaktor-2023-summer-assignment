@@ -2,6 +2,8 @@ import { PILOT_INFO_ENDPOINT } from "../constants"
 
 interface IPersonData {
     pilotId: string
+    email: string,
+    phoneNumber: string,
     firstName: string
     lastName: string
 }
