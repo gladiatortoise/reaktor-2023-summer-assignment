@@ -16,12 +16,19 @@ export class Person {
     ) {}
 
     static validatePersonData(personData : any) : IPersonData {
-        // @todo: bang doesn't actually assert in typescript
+        if (typeof personData.pilotId !== 'string') throw new Error('Invalid pilotId')
+        if (typeof personData.email !== 'string') throw new Error('Invalid email')
+        if (typeof personData.phoneNumber !== 'string') throw new Error('Invalid phoneNumber')
+        if (typeof personData.firstName !== 'string') throw new Error('Invalid firstName')
+        if (typeof personData.lastName !== 'string') throw new Error('Invalid lastName')
+
         return {
             ...personData,
-            pilotId: personData.pilotId!,
-            firstName: personData.firstName!,
-            lastName: personData.lastName!
+            pilotId: personData.pilotId,
+            email: personData.email,
+            phoneNumber: personData.phoneNumber,
+            firstName: personData.firstName,
+            lastName: personData.lastName
         }
     }
 

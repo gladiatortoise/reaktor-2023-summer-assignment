@@ -61,12 +61,15 @@ export class Drone {
     }
 
     static validateDroneData(droneData : any) : IDroneData {
-        // @todo: bang doesn't actually assert in typescript
+        if (typeof droneData['serialNumber'] !== 'string') throw new Error('Invalid serial number')
+        if (typeof droneData['positionX'] !== 'number') throw new Error('Invalid position X')
+        if (typeof droneData['positionY'] !== 'number') throw new Error('Invalid position Y')
+
         return {
             ...droneData,
-            serialNumber: droneData.serialNumber!,
-            positionX: droneData.positionX!,
-            positionY: droneData.positionY!
+            serialNumber: droneData['serialNumber'],
+            positionX: droneData['positionX'],
+            positionY: droneData['positionY']
         }
     }
 
