@@ -2,7 +2,7 @@ import { Drone, IDroneTree } from "./Drone"
 import { groupBy, xmlParser } from "../utils"
 import { DELETE_DRONE_AFTER, DRONES_ENDPOINT } from "../constants"
 
-export class MutatingDroneList {
+export class MutableDroneList {
     lastUpdated = Date.now()
     
     constructor(
@@ -11,12 +11,12 @@ export class MutatingDroneList {
     ) {}
 
     // create a new MutatingDroneList instance from the API
-    static async createFromAPI() : Promise<MutatingDroneList> {
-        const dronesReport = await MutatingDroneList.fetchReport()
-        const drones = await MutatingDroneList.dronesFromReport(dronesReport)
-        const dronesTree = await MutatingDroneList.listToTree(drones)
+    static async createFromAPI() : Promise<MutableDroneList> {
+        const dronesReport = await MutableDroneList.fetchReport()
+        const drones = await MutableDroneList.dronesFromReport(dronesReport)
+        const dronesTree = await MutableDroneList.listToTree(drones)
 
-        return new MutatingDroneList(dronesTree)
+        return new MutableDroneList(dronesTree)
     }
 
     // transform a list of drones to a tree/map
@@ -54,7 +54,7 @@ export class MutatingDroneList {
     }
 
     // update this DroneList instance with the data from another DroneList instance
-    async updateWith(other : MutatingDroneList) : Promise<void> {
+    async updateWith(other : MutableDroneList) : Promise<void> {
         for (const [key, drone] of Object.entries(this.droneTree)) {
             if (!other.hasOwnProperty(key)) {
                 drone.mbyInactive = true
@@ -102,7 +102,7 @@ export class MutatingDroneList {
     // update this DroneList instance with the data from the API
     async update() : Promise<void> {
         try {
-            const newList = await MutatingDroneList.createFromAPI()
+            const newList = await MutableDroneList.createFromAPI()
             await this.updateWith(newList)
             await this.deleteOutdatedViolationData()
             await this.deleteOldDrones()

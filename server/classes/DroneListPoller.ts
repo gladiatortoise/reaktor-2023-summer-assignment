@@ -1,8 +1,8 @@
-import { MutatingDroneList } from "./DroneList"
+import { MutableDroneList } from "./DroneList"
 
 export class DroneListPoller {
     interval : NodeJS.Timer | null = null
-    list : MutatingDroneList = new MutatingDroneList()
+    list : MutableDroneList = new MutableDroneList()
 
     constructor() {}
 
