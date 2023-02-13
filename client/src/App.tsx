@@ -41,6 +41,7 @@ const prettyPrintTime = (time: number) => {
 }
 
 // sort drones according to the last violation
+// return a sorted list of drone ids
 const sortDrones = (drones: IDrones) => {
   return Object.keys(drones).sort((a, b) => {
     let aViolation = drones[a].violationData
